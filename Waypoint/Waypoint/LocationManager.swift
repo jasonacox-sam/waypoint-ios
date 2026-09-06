@@ -71,13 +71,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         let device = defaults.string(forKey: "deviceName")?.trimmingCharacters(in: .whitespaces) ?? ""
 
         CLGeocoder().reverseGeocodeLocation(location) { [weak self] placemarks, _ in
-            let city = placemarks?.first?.locality ?? ""
-            let state = placemarks?.first?.administrativeArea ?? ""
-            self?.send(to: url, token: token, device: device, location: location, city: city, state: state)
+            let placemark = placemarks?.first
+            let number = placemark?.subThoroughfare ?? ""
+            let road   = placemark?.thoroughfare ?? ""
+            let street = [number, road].filter { !$0.isEmpty }.joined(separator: " ")
+            let city   = placemark?.locality ?? ""
+            let state  = placemark?.administrativeArea ?? ""
+            self?.send(to: url, token: token, device: device, location: location, street: street, city: city, state: state)
         }
     }
 
-    private func send(to url: URL, token: String, device: String, location: CLLocation, city: String, state: String) {
+    private func send(to url: URL, token: String, device: String, location: CLLocation, street: String, city: String, state: String) {
         var bgTask: UIBackgroundTaskIdentifier = .invalid
         bgTask = UIApplication.shared.beginBackgroundTask {
             UIApplication.shared.endBackgroundTask(bgTask)
@@ -91,6 +95,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         var payload: [String: Any] = [
             "lat": location.coordinate.latitude,
             "lon": location.coordinate.longitude,
+            "street": street,
             "city": city,
             "state": state,
             "timestamp": ISO8601DateFormatter().string(from: Date()),
