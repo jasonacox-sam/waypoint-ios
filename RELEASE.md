@@ -8,6 +8,8 @@
   - Label font attributes corrected from `key="font"` to `key="fontDescription"`
 
 ### Changed
+- Launch screen icon now has rounded corners (matching the iOS app icon
+  corner ratio), baked into the `WaypointIcon` asset with an antialiased mask
 - Restructured the repo: the full Xcode project now lives under `Waypoint/`
   in the containing `waypoint-ios` repository
 - `.gitignore` patterns anchored with `**/` so they match the nested project
