@@ -7,6 +7,10 @@
   - `targetRuntime` corrected from `AppleCocoa Touch` to `iOS.CocoaTouch`
   - Label font attributes corrected from `key="font"` to `key="fontDescription"`
 
+### Added
+- GitHub Actions CI: unsigned iOS Simulator build + launch screen storyboard
+  validation on every push and PR to `main`
+
 ### Changed
 - Launch screen icon now has rounded corners (matching the iOS app icon
   corner ratio), baked into the `WaypointIcon` asset with an antialiased mask

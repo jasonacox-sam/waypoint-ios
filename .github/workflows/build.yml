@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build (iOS Simulator)
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Validate launch screen storyboard
+        run: |
+          ibtool --errors --warnings --notices \
+            Waypoint/Waypoint/LaunchScreen.storyboard
+
+      - name: Build
+        run: |
+          xcodebuild \
+            -project Waypoint/Waypoint.xcodeproj \
+            -scheme Waypoint \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build

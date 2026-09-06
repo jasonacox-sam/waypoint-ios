@@ -35,6 +35,9 @@ If you edit `LaunchScreen.storyboard`, validate it separately first:
 ibtool --errors --warnings --notices Waypoint/Waypoint/LaunchScreen.storyboard
 ```
 
+CI (`.github/workflows/build.yml`) runs the same storyboard validation and a
+simulator build (unsigned) on every push and PR to `main` — keep it green.
+
 Storyboard XML gotchas (both have broken the build before):
 - `targetRuntime` must be `iOS.CocoaTouch` (not `AppleCocoa Touch`)
 - Label fonts use `<fontDescription key="fontDescription" ...>` (not `key="font"`)
