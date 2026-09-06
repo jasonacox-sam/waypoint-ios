@@ -53,7 +53,13 @@ struct SettingsView: View {
                         .foregroundColor(.secondary)
                 }
 
-                Section {
+                Section(header: Text("About")) {
+                    HStack {
+                        Text("Version")
+                        Spacer()
+                        Text(appVersion)
+                            .foregroundColor(.secondary)
+                    }
                     Link("View source on GitHub",
                          destination: URL(string: "https://github.com/jasonacox-sam/waypoint-ios")!)
                         .foregroundColor(.accentColor)
@@ -76,6 +82,12 @@ struct SettingsView: View {
                 }
             }
         }
+    }
+
+    private var appVersion: String {
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?"
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "?"
+        return "\(version) (\(build))"
     }
 
     private let payloadExample = """
