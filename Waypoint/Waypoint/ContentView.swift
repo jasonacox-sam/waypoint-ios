@@ -42,19 +42,34 @@ struct ContentView: View {
                 .background(Color(.secondarySystemBackground))
                 .cornerRadius(12)
 
-                // Manual trigger
+                // Manual trigger — action depends on current authorization state so
+                // users aren't permanently stuck once a location fix has been fetched.
                 Button {
-                    if let loc = locationManager.lastLocation {
-                        locationManager.postLocation(loc)
-                    } else {
+                    switch locationManager.authStatus {
+                    case .authorizedAlways:
+                        if let loc = locationManager.lastLocation {
+                            locationManager.postLocation(loc)
+                        } else {
+                            locationManager.startMonitoring()
+                        }
+                    case .denied, .restricted:
+                        locationManager.openSystemSettings()
+                    default:
                         locationManager.startMonitoring()
                     }
                 } label: {
-                    Label("Send Location Now", systemImage: "location.fill")
+                    Label(actionButtonTitle, systemImage: actionButtonIcon)
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
+
+                if locationManager.authStatus == .authorizedWhenInUse {
+                    Button("Open Settings to Enable Always Access") {
+                        locationManager.openSystemSettings()
+                    }
+                    .font(.footnote)
+                }
 
                 Spacer()
 
@@ -105,10 +120,26 @@ struct ContentView: View {
     private var authLabel: String {
         switch locationManager.authStatus {
         case .authorizedAlways:      return "Active — Monitoring in Background"
-        case .authorizedWhenInUse:   return "Limited — Tap below, then grant Always access"
+        case .authorizedWhenInUse:   return "Limited — Grant Always access to run in background"
         case .denied, .restricted:   return "Location Denied — Enable in Settings"
         case .notDetermined:         return "Tap below to enable location access"
         default:                     return "Unknown status"
+        }
+    }
+
+    private var actionButtonTitle: String {
+        switch locationManager.authStatus {
+        case .authorizedAlways:      return "Send Location Now"
+        case .denied, .restricted:   return "Open Settings"
+        default:                     return "Grant Always Access"
+        }
+    }
+
+    private var actionButtonIcon: String {
+        switch locationManager.authStatus {
+        case .authorizedAlways:      return "location.fill"
+        case .denied, .restricted:   return "gearshape"
+        default:                     return "location.fill.viewfinder"
         }
     }
 }

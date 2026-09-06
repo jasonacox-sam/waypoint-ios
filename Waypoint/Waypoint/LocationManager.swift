@@ -1,3 +1,4 @@
+import Combine
 import CoreLocation
 import UIKit
 
@@ -23,6 +24,13 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         if clManager.authorizationStatus == .authorizedAlways {
             clManager.startMonitoringSignificantLocationChanges()
         }
+    }
+
+    /// Opens the app's page in Settings so the user can manually switch to "Always" —
+    /// needed because iOS only shows the in-app upgrade prompt once per install.
+    func openSystemSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        DispatchQueue.main.async { UIApplication.shared.open(url) }
     }
 
     // MARK: - CLLocationManagerDelegate
