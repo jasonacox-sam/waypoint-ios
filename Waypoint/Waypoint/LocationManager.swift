@@ -68,15 +68,16 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         else { return }
 
         let token = defaults.string(forKey: "bearerToken") ?? ""
+        let device = defaults.string(forKey: "deviceName")?.trimmingCharacters(in: .whitespaces) ?? ""
 
         CLGeocoder().reverseGeocodeLocation(location) { [weak self] placemarks, _ in
             let city = placemarks?.first?.locality ?? ""
             let state = placemarks?.first?.administrativeArea ?? ""
-            self?.send(to: url, token: token, location: location, city: city, state: state)
+            self?.send(to: url, token: token, device: device, location: location, city: city, state: state)
         }
     }
 
-    private func send(to url: URL, token: String, location: CLLocation, city: String, state: String) {
+    private func send(to url: URL, token: String, device: String, location: CLLocation, city: String, state: String) {
         var bgTask: UIBackgroundTaskIdentifier = .invalid
         bgTask = UIApplication.shared.beginBackgroundTask {
             UIApplication.shared.endBackgroundTask(bgTask)
@@ -87,13 +88,14 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         if !token.isEmpty { req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization") }
 
-        let payload: [String: Any] = [
+        var payload: [String: Any] = [
             "lat": location.coordinate.latitude,
             "lon": location.coordinate.longitude,
             "city": city,
             "state": state,
             "timestamp": ISO8601DateFormatter().string(from: Date()),
         ]
+        if !device.isEmpty { payload["device"] = device }
         req.httpBody = try? JSONSerialization.data(withJSONObject: payload)
 
         URLSession.shared.dataTask(with: req) { [weak self] _, response, error in

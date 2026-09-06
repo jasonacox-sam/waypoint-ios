@@ -4,11 +4,20 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var webhookURL: String = UserDefaults.standard.string(forKey: "webhookURL") ?? ""
     @State private var bearerToken: String = UserDefaults.standard.string(forKey: "bearerToken") ?? ""
+    @State private var deviceName: String = UserDefaults.standard.string(forKey: "deviceName") ?? ""
     @State private var showToken = false
 
     var body: some View {
         NavigationView {
             Form {
+                Section(
+                    header: Text("Device Name"),
+                    footer: Text("Identifies this device to the receiver. Use a unique name per person (e.g. \"Jason\", \"Jane\").")
+                ) {
+                    TextField("Jason", text: $deviceName)
+                        .autocorrectionDisabled()
+                }
+
                 Section(
                     header: Text("Webhook URL"),
                     footer: Text("HTTPS endpoint that accepts POST requests with your location.")
@@ -59,6 +68,7 @@ struct SettingsView: View {
                     Button("Save") {
                         UserDefaults.standard.set(webhookURL, forKey: "webhookURL")
                         UserDefaults.standard.set(bearerToken, forKey: "bearerToken")
+                        UserDefaults.standard.set(deviceName, forKey: "deviceName")
                         dismiss()
                     }
                     .bold()
@@ -70,10 +80,11 @@ struct SettingsView: View {
 
     private let payloadExample = """
     {
-      "lat": 34.3839,
-      "lon": -118.5553,
-      "city": "Valencia",
+      "lat": 34.1184,
+      "lon": -118.3004,
+      "city": "Los Angeles",
       "state": "CA",
+      "device": "Jason",
       "timestamp": "2026-09-05T20:00:00Z"
     }
     """
