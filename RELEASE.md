@@ -1,5 +1,19 @@
 # Release Notes
 
+## v1.0.2 (build 3) — 2026-09-06
+
+### Fixed
+- Location permission flow now surfaces the "Always" upgrade prompt immediately:
+  When-In-Use is requested first, then the Always upgrade as soon as it's
+  granted (requesting Always from a fresh state never shows an Always option).
+  The upgrade request is gated to fire at most once per install — iOS only
+  shows its own dialog once, so retrying on every launch/appear was a no-op.
+- Launch screen icon not rendering on device: renamed the asset
+  (`WaypointIcon` → `LaunchIcon`) to bust iOS's launch screen render cache,
+  collapsed the image set to a single scale-agnostic entry (stale empty
+  2x/3x slots were resolving to nothing on 3x devices), and restored a
+  version-label constraint that an Xcode re-save had orphaned
+
 ## v1.0.1 (build 2) — 2026-09-05
 
 ### Fixed
@@ -13,7 +27,7 @@
 
 ### Changed
 - Launch screen icon now has rounded corners (matching the iOS app icon
-  corner ratio), baked into the `WaypointIcon` asset with an antialiased mask
+  corner ratio), baked into the launch icon asset with an antialiased mask
 - Restructured the repo: the full Xcode project now lives under `Waypoint/`
   in the containing `waypoint-ios` repository
 - `.gitignore` patterns anchored with `**/` so they match the nested project
