@@ -24,52 +24,23 @@ The app keeps running in the background and is relaunched automatically by iOS a
 
 ## Setup — Xcode
 
-> Requires Xcode 15+ and iOS 16+ deployment target.
+> Requires Xcode 26+ (iOS 26.1 deployment target).
 
-### 1. Create the Xcode project
+### 1. Open the project
 
-1. Open Xcode → **File → New → Project**
-2. Choose **iOS → App**
-3. Fill in:
-   - **Product Name:** `Waypoint`
-   - **Bundle Identifier:** `com.yourname.waypoint` (must be unique for your Apple ID)
-   - **Interface:** SwiftUI
-   - **Language:** Swift
-4. Save the project somewhere convenient
+Clone this repo and open `Waypoint/Waypoint.xcodeproj` in Xcode. Location permissions and the Background Modes (Location updates) capability are already configured.
 
-### 2. Add the source files
+### 2. Set your signing identity
 
-Delete the auto-generated `ContentView.swift`, then drag all five `.swift` files from this repo's `Waypoint/` directory into your Xcode project:
+Select the **Waypoint** target → **Signing & Capabilities** → choose your own **Team**, and change the **Bundle Identifier** to something unique for your Apple ID (e.g., `com.yourname.waypoint`).
 
-- `WaypointApp.swift`
-- `AppDelegate.swift`
-- `LocationManager.swift`
-- `ContentView.swift`
-- `SettingsView.swift`
-
-Make sure **"Copy items if needed"** and your target are checked.
-
-### 3. Add location permissions (Info tab)
-
-In Xcode, select your target → **Info** tab → hover over any row → click **+** to add:
-
-| Key | Value |
-|-----|-------|
-| `NSLocationAlwaysAndWhenInUseUsageDescription` | Waypoint uses your location in the background to report significant location changes. |
-| `NSLocationAlwaysUsageDescription` | Waypoint needs Always location access to report changes when the app is closed. |
-| `NSLocationWhenInUseUsageDescription` | Waypoint needs location access to report where you are. |
-
-### 4. Add Background Modes capability
-
-Select your target → **Signing & Capabilities** → **+ Capability** → **Background Modes** → check **Location updates**.
-
-### 5. Build and run on device
+### 3. Build and run on device
 
 Connect your iPhone, select it as the destination, hit **Run (⌘R)**. Sign with your Apple Developer account when prompted.
 
 First launch: tap the location icon to grant "Always" permission. The status badge turns green when monitoring is active.
 
-### 6. Configure the endpoint
+### 4. Configure the endpoint
 
 Tap the gear icon → enter your webhook URL and Bearer token → **Save**.
 
