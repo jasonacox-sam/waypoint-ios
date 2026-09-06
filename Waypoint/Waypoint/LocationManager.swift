@@ -8,6 +8,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     private let clManager = CLLocationManager()
     private var lastPostDate: Date?
     private let minPostInterval: TimeInterval = 30
+    private var pendingManualSend = false
 
     @Published var lastLocation: CLLocation?
     @Published var lastStatus: String = "Not yet reported"
@@ -24,6 +25,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         if clManager.authorizationStatus == .authorizedAlways {
             clManager.startMonitoringSignificantLocationChanges()
         }
+    }
+
+    /// Requests a fresh one-shot GPS fix and posts it, bypassing the debounce.
+    func requestAndPost() {
+        pendingManualSend = true
+        clManager.requestLocation()
     }
 
     /// Opens the app's page in Settings so the user can manually switch to "Always" —
@@ -45,12 +52,18 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
 
-        // Debounce: ignore rapid-fire updates
+        DispatchQueue.main.async { self.lastLocation = location }
+
+        if pendingManualSend {
+            pendingManualSend = false
+            postLocation(location)
+            return
+        }
+
+        // Debounce: ignore rapid-fire background updates
         let now = Date()
         if let last = lastPostDate, now.timeIntervalSince(last) < minPostInterval { return }
         lastPostDate = now
-
-        DispatchQueue.main.async { self.lastLocation = location }
         postLocation(location)
     }
 

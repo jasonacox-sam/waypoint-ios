@@ -47,11 +47,7 @@ struct ContentView: View {
                 Button {
                     switch locationManager.authStatus {
                     case .authorizedAlways:
-                        if let loc = locationManager.lastLocation {
-                            locationManager.postLocation(loc)
-                        } else {
-                            locationManager.startMonitoring()
-                        }
+                        locationManager.requestAndPost()
                     case .denied, .restricted:
                         locationManager.openSystemSettings()
                     default:
