@@ -4,6 +4,7 @@ import UIKit
 
 class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     static let shared = LocationManager()
+    private static let hasRequestedAlwaysKey = "hasRequestedAlwaysAuthorization"
 
     private let clManager = CLLocationManager()
     private var lastPostDate: Date?
@@ -28,13 +29,23 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
             // and defers its own upgrade prompt to an arbitrary later time.
             clManager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse:
-            // Now iOS shows the "Change to Always Allow?" dialog immediately.
-            clManager.requestAlwaysAuthorization()
+            requestAlwaysUpgradeIfNeeded()
         case .authorizedAlways:
             clManager.startMonitoringSignificantLocationChanges()
         default:
             break
         }
+    }
+
+    /// Requests the Always upgrade at most once per install — iOS only shows its
+    /// "Change to Always Allow?" dialog the first time, so repeating the request
+    /// on every launch/appear would be a no-op. After the one attempt, the app
+    /// falls back to directing the user to Settings (see `openSystemSettings`).
+    private func requestAlwaysUpgradeIfNeeded() {
+        let defaults = UserDefaults.standard
+        guard !defaults.bool(forKey: Self.hasRequestedAlwaysKey) else { return }
+        defaults.set(true, forKey: Self.hasRequestedAlwaysKey)
+        clManager.requestAlwaysAuthorization()
     }
 
     /// Requests a fresh one-shot GPS fix and posts it, bypassing the debounce.
@@ -58,9 +69,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         case .authorizedAlways:
             manager.startMonitoringSignificantLocationChanges()
         case .authorizedWhenInUse:
-            // When-In-Use just granted — immediately request the Always upgrade
-            // so the user gets the "Change to Always Allow?" prompt out of the gate.
-            manager.requestAlwaysAuthorization()
+            // Just upgraded from notDetermined — request Always right away so the
+            // "Change to Always Allow?" dialog appears immediately, gated to once.
+            requestAlwaysUpgradeIfNeeded()
         default:
             break
         }
