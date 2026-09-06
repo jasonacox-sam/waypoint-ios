@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="WaypointIcon" translatesAutoresizingMaskIntoConstraints="NO" id="Guh-1A-Xz9">
-                                <rect key="frame" x="136" y="306" width="120" height="120"/>
+                                <rect key="frame" x="136.66666666666666" y="306" width="119.99999999999997" height="120"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waypoint" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gPt-1S-TzD">
                                 <rect key="frame" x="0.0" y="446" width="393" height="36"/>
@@ -27,23 +27,23 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v1.0.1" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vBr-9k-Lhz">
                                 <rect key="frame" x="0.0" y="812" width="393" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" red="0.55" green="0.60" blue="0.70" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.55000000000000004" green="0.59999999999999998" blue="0.69999999999999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <viewLayoutGuide key="safeAreaLayoutGuide" id="Bcu-3y-fUS"/>
-                        <color key="backgroundColor" red="0.039" green="0.071" blue="0.165" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="z5d-i2-Iom"/>
+                        <color key="backgroundColor" red="0.039" green="0.070999999999999994" blue="0.16500000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Guh-1A-Xz9" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="img-cx"/>
                             <constraint firstItem="Guh-1A-Xz9" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-60" id="img-cy"/>
-                            <constraint firstItem="Guh-1A-Xz9" firstAttribute="width" constant="120" id="img-w"/>
                             <constraint firstItem="Guh-1A-Xz9" firstAttribute="height" constant="120" id="img-h"/>
+                            <constraint firstItem="Guh-1A-Xz9" firstAttribute="width" constant="120" id="img-w"/>
                             <constraint firstItem="gPt-1S-TzD" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="ttl-l"/>
                             <constraint firstItem="gPt-1S-TzD" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" id="ttl-r"/>
                             <constraint firstItem="gPt-1S-TzD" firstAttribute="top" secondItem="Guh-1A-Xz9" secondAttribute="bottom" constant="20" id="ttl-t"/>
                             <constraint firstItem="vBr-9k-Lhz" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="ver-l"/>
                             <constraint firstItem="vBr-9k-Lhz" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" id="ver-r"/>
-                            <constraint firstItem="vBr-9k-Lhz" firstAttribute="bottom" secondItem="Bcu-3y-fUS" secondAttribute="bottom" constant="-20" id="ver-b"/>
+                            <constraint firstItem="vBr-9k-Lhz" firstAttribute="bottom" secondItem="z5d-i2-Iom" secondAttribute="bottom" constant="-20" id="ver-b"/>
                         </constraints>
                     </view>
                 </viewController>
