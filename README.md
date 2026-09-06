@@ -14,9 +14,9 @@ The app keeps running in the background and is relaunched automatically by iOS a
 
 ```json
 {
-  "lat": 34.3839,
-  "lon": -118.5553,
-  "city": "Valencia",
+  "lat": 34.1184,
+  "lon": -118.3004,
+  "city": "Los Angeles",
   "state": "CA",
   "timestamp": "2026-09-05T20:00:00Z"
 }
