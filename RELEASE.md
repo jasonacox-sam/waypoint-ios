@@ -3,6 +3,9 @@
 ## v1.0.1 (build 2) — 2026-09-05
 
 ### Fixed
+- Location permission flow now surfaces the "Always" upgrade prompt immediately:
+  When-In-Use is requested first, then the Always upgrade as soon as it's
+  granted (requesting Always from a fresh state never shows an Always option)
 - Build failure caused by a malformed `LaunchScreen.storyboard`:
   - `targetRuntime` corrected from `AppleCocoa Touch` to `iOS.CocoaTouch`
   - Label font attributes corrected from `key="font"` to `key="fontDescription"`

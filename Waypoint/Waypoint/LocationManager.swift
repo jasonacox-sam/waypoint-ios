@@ -21,9 +21,19 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
 
     func startMonitoring() {
-        clManager.requestAlwaysAuthorization()
-        if clManager.authorizationStatus == .authorizedAlways {
+        switch clManager.authorizationStatus {
+        case .notDetermined:
+            // Two-step flow: ask When-In-Use first. Requesting Always from a fresh
+            // state never shows an "Always" option — iOS grants provisional access
+            // and defers its own upgrade prompt to an arbitrary later time.
+            clManager.requestWhenInUseAuthorization()
+        case .authorizedWhenInUse:
+            // Now iOS shows the "Change to Always Allow?" dialog immediately.
+            clManager.requestAlwaysAuthorization()
+        case .authorizedAlways:
             clManager.startMonitoringSignificantLocationChanges()
+        default:
+            break
         }
     }
 
@@ -44,8 +54,15 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         DispatchQueue.main.async { self.authStatus = manager.authorizationStatus }
-        if manager.authorizationStatus == .authorizedAlways {
+        switch manager.authorizationStatus {
+        case .authorizedAlways:
             manager.startMonitoringSignificantLocationChanges()
+        case .authorizedWhenInUse:
+            // When-In-Use just granted — immediately request the Always upgrade
+            // so the user gets the "Change to Always Allow?" prompt out of the gate.
+            manager.requestAlwaysAuthorization()
+        default:
+            break
         }
     }
 
