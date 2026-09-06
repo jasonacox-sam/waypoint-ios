@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="WaypointIcon" translatesAutoresizingMaskIntoConstraints="NO" id="Guh-1A-Xz9">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="LaunchIcon" translatesAutoresizingMaskIntoConstraints="NO" id="Guh-1A-Xz9">
                                 <rect key="frame" x="136.66666666666666" y="306" width="119.99999999999997" height="120"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waypoint" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gPt-1S-TzD">
@@ -53,6 +53,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="WaypointIcon" width="1024" height="1024"/>
+        <image name="LaunchIcon" width="1024" height="1024"/>
     </resources>
 </document>
